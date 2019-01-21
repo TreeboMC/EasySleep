@@ -1,0 +1,17 @@
+name: EasySleep
+version: ${project.version}
+main: me.shakeforprotein.easysleep.EasySleep
+api-version: 1.13
+authors: [ShakeforProtein]
+description: Simple sleep plugin to allow either a single player or half the players on the server to trigger the day cycle event.
+website: http://treebo.games
+
+commands:
+  easysleep:
+    description: toggles the requiresHalfToSleep value in the config
+    usage: <command>
+
+permissions:
+  easysleep.toggle:
+    default: op
+    description: enables the easysleep command
