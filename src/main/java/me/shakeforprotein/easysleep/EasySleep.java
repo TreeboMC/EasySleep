@@ -39,6 +39,28 @@ public final class EasySleep extends JavaPlugin implements Listener {
     @EventHandler
     private void onPlayerSleepEvent(PlayerBedEnterEvent e) {
         Player p = e.getPlayer();
+        if(getConfig().get("sleeping." + p.getName()) == null){
+            getConfig().set("sleeping." + p.getName(), 0);
+        }
+        else if (getConfig().getInt("sleeping." + p.getName()) < 0){
+            getConfig().set("sleeping." + p.getName(), 1);
+
+        }
+        else if (getConfig().getInt("sleeping." + p.getName()) >= 0){
+            getConfig().set("sleeping." + p.getName(), getConfig().getInt("sleeping." + p.getName()) +1);
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                public void run() {
+                    getConfig().set("sleeping." + p.getName(), getConfig().getInt("sleeping." + p.getName()) -1);
+                }
+            }, 500L);
+        }
+
+        if(getConfig().getInt("sleeping." + p.getName()) > 3){
+            p.sendMessage(ChatColor.RED + "You tried to hard to sleep and forgot how to wake up");
+            p.setHealth(0);
+            e.getBed().breakNaturally();
+        }
+
         if(getConfig().getInt(p.getWorld().getName()) < 0){getConfig().set(p.getWorld().getName(), 0);}
         int democracy = getConfig().getInt("requireHalfToSleep");
         int playersOnWorld = e.getPlayer().getWorld().getPlayers().size();
@@ -49,6 +71,8 @@ public final class EasySleep extends JavaPlugin implements Listener {
         if (playersOnWorld % 2 != 0){
             playersOnWorld = playersOnWorld +1;
         }
+
+
 
         if ((p.getWorld().getTime() > 12860 && p.getWorld().getTime() < 23000) || p.getWorld().isThundering()) {
             if (democracy == 1) {
