@@ -6,3 +6,4 @@ Allows you to toggle between needing one player to sleep, or half of the online 
 
 ## Permissions
 easysleep.toggle - Allows a player to use the /easysleep command - Defaults to OP
+easysleep.ignore - Not implemented

@@ -44,7 +44,7 @@ public final class EasySleep extends JavaPlugin implements Listener {
         int playersOnWorld = e.getPlayer().getWorld().getPlayers().size();
         long currentTime = p.getWorld().getFullTime();
         long currentDay = currentTime / 24000;
-        long newDay = currentDay * 24000 + 6000;
+        long newDay = (currentDay+1) * 24000;
 
         if (playersOnWorld % 2 != 0){
             playersOnWorld = playersOnWorld +1;
@@ -52,6 +52,7 @@ public final class EasySleep extends JavaPlugin implements Listener {
 
         if ((p.getWorld().getTime() > 12860 && p.getWorld().getTime() < 23000) || p.getWorld().isThundering()) {
             if (democracy == 1) {
+                if(p.isSleeping()){
                     getConfig().set(p.getWorld().getName(), getConfig().getInt(p.getWorld().getName()) + 1);
 
 
@@ -66,7 +67,7 @@ public final class EasySleep extends JavaPlugin implements Listener {
                             player.sendMessage(ChatColor.GOLD + "There are " + ChatColor.GREEN + getConfig().get(p.getWorld().getName()) + ChatColor.GOLD + " players of a required " + ChatColor.RED + (playersOnWorld / 2) + ChatColor.GOLD + " who are in bed");
                         }
                     }
-            }
+            }}
             else {
                     p.getWorld().setFullTime(newDay);
                     for (Player player : p.getWorld().getPlayers()) {
